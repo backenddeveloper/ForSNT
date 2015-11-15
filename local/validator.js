@@ -1,7 +1,7 @@
   var fields_validated = {} ;
   
   var validate_name = function(name){
-  	  if(/[^a-z\s]/.exec(name)){
+  	  if(/[^a-z\s]/i.exec(name)){
   	  	  throw new Error("The candidate name can only contain spaces and letters") ;
   	  }
   	  if(name.length < 8){
