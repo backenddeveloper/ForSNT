@@ -1,0 +1,269 @@
+$(function() {
+    $(".date_picker").datepicker();
+    $("#second_section").hide();
+    $("#third_section").hide();
+    $("#first_aid_date").hide();			    
+});
+  
+  var candidate = {} ;
+
+  function handle_error(element , message){
+      $(element).parent().addClass("has-error") ;
+      $(element).parent().removeClass("has-success") ;
+      $("#errors").html(message) ;
+  }
+  
+  function remove_error(element){
+       $(element).parent().removeClass("has-error") ;
+       $(element).parent().addClass("has-success") ;
+       $("#errors").html("") ;
+  }
+  
+  $("#candidate_name").blur(function(){
+      try {
+      	validate_name($(this).val()) ;
+      	remove_error($(this));
+      } catch (error) {
+          handle_error($(this) , error.message) ;
+      }
+  });
+  
+  $("#date_of_birth").blur(function(){
+      setTimeout(function(){
+	      try {
+	      	validate_date($("#date_of_birth").val() , "dob" , false) ;
+	      	remove_error($("#date_of_birth"));
+	      } catch (error) {
+	          handle_error($("#date_of_birth") , error.message) ;
+	      }
+      },500);
+  });
+  
+  $("#gender").blur(function(){
+      if(validate_gender($(this).val())){
+      	  remove_error($(this)) ;
+      } else {
+          handle_error($(this) , "Please enter a valid gender") ;
+      }
+  });		  
+  
+  $("#payroll").blur(function(){
+      try {
+          validate_payroll_number($(this).val()) ;
+      	  remove_error($(this)) ;
+      } catch (error) {
+          handle_error($(this) , error.message) ;
+      }
+  });	
+  			  
+  $("#start_date").blur(function(){
+      setTimeout(function(){
+	      try {
+	      	validate_date($("#start_date").val() , "startdate" , false) ;
+	      	remove_error($("#start_date"));
+	      } catch (error) {
+	          handle_error($("#start_date") , error.message) ;
+	      }
+      },500);
+  });			  			  
+  
+  $("#first_aid").on('change' , function(){
+      if($(this).val() === "yes"){
+	      $("#first_aid_date").show();
+	  } else {
+	      $("#first_aid_date").hide();
+	      remove_error($("#first_aid_date"));
+	  }
+  });var candidate = {} ;
+
+  function handle_error(element , message){
+      $(element).parent().addClass("has-error") ;
+      $(element).parent().removeClass("has-success") ;
+      $("#errors").html(message) ;
+  }
+  
+  function remove_error(element){
+       $(element).parent().removeClass("has-error") ;
+       $(element).parent().addClass("has-success") ;
+       $("#errors").html("") ;
+  }
+  
+  $("#candidate_name").blur(function(){
+      try {
+      	validate_name($(this).val()) ;
+      	remove_error($(this));
+      } catch (error) {
+          handle_error($(this) , error.message) ;
+      }
+  });
+  
+  $("#date_of_birth").blur(function(){
+      setTimeout(function(){
+	      try {
+	      	validate_date($("#date_of_birth").val() , "dob" , false) ;
+	      	remove_error($("#date_of_birth"));
+	      } catch (error) {
+	          handle_error($("#date_of_birth") , error.message) ;
+	      }
+      },500);
+  });
+  
+  $("#gender").blur(function(){
+      if(validate_gender($(this).val())){
+      	  remove_error($(this)) ;
+      } else {
+          handle_error($(this) , "Please enter a valid gender") ;
+      }
+  });		  
+  
+  $("#payroll").blur(function(){
+      try {
+          validate_payroll_number($(this).val()) ;
+      	  remove_error($(this)) ;
+      } catch (error) {
+          handle_error($(this) , error.message) ;
+      }
+  });	
+  			  
+  $("#start_date").blur(function(){
+      setTimeout(function(){
+	      try {
+	      	validate_date($("#start_date").val() , "startdate" , false) ;
+	      	remove_error($("#start_date"));
+	      } catch (error) {
+	          handle_error($("#start_date") , error.message) ;
+	      }
+      },500);
+  });			  			  
+  
+  $("#first_aid").on('change' , function(){
+      if($(this).val() === "yes"){
+	      $("#first_aid_date").show();
+	  } else {
+	      $("#first_aid_date").hide();
+	      remove_error($("#first_aid_date"));
+	  }
+  });
+  
+  $("#first_aid_date").blur(function(){
+      setTimeout(function(){
+	      try {
+	      	validate_date($("#first_aid_date").val() , "firstaiddate" , true) ;
+	      	remove_error($("#first_aid_date"));
+	      } catch (error) {
+	          handle_error($("#first_aid_date") , error.message) ;
+	      }
+      },500);
+  });			  
+  
+  $("#first_submit").click(function(){
+	  if(!fields_validated.name){
+	      handle_error($("#candidate_name") , "Please enter a valid name") ;
+	  } else if(!fields_validated.dob){
+	      handle_error($("#date_of_birth") , "Please enter a valid date of birth") ;
+	  } else if(!fields_validated.gender){
+	      handle_error($("#gender") , "Please enter a valid gender") ;
+	  } else {
+	      $("#first_section").hide("slow" , "linear" , function(){
+	      	  $("#second_section").show("slow");
+	      });
+	  }
+  });
+  
+  $("#second_submit").click(function(){
+      if(!fields_validated.payroll){
+          handle_error($("#payroll") , "Please enter a valid payroll number") ;
+      } else if (!fields_validated.startdate){
+          handle_error($("#start_date") , "Please enter a valid start date") ;
+      }	else if ($("#first_aid").val() === "yes" && !fields_validated.firstaiddate){			      
+          handle_error($("#first_aid_date") , "Please enter a valid expiry date") ;
+      } else {
+      	  var first_aid = ($("#first_aid").val() === "yes") ? "Yes, expires on " + $("#first_aid_date").val() : "no" ;
+      	  var candidate_details = "<h2>Candidate details:</h2>" +
+              "Name: " + $("#candidate_name").val() + "<br>" +
+              "Date of birth: " + $("#date_of_birth").val()  + "<br>" +
+              "Gender: " + $("#gender").val() + "<br>" +
+              "Payroll number: " + $("#payroll").val() + "<br>" +
+              "Start date: " + $("#start_date").val() + "<br>" +
+              "Has first aid training: " + first_aid + "<br>" ;
+          $("#third_section").html(
+              candidate_details + 
+              "<div class='form-group' id='third_submit_wrapper'>" +
+			  "<button id='third_submit' class='btn btn-info form-control'" +
+			  "onclick='window.location.href=\"https://github.com/backenddeveloper\"'>Go to more code</button>"
+          );
+          $("#second_section").hide("slow" , "linear" , function(){
+	      	  $("#third_section").show("slow");
+	      	  console.log("Candidate details...");
+	      	  console.log("Name: " + $("#candidate_name").val()) ;
+	      	  console.log("Date of birth: " + $("#date_of_birth").val()) ;
+	      	  console.log("Gender: " + $("#gender").val()) ;
+	      	  console.log("Payroll number: " + $("#payroll").val()) ;
+	      	  console.log("Start date: " + $("#start_date").val()) ;
+	      	  console.log("Has first aid training: " + first_aid) ;
+	      });
+      }
+  });
+  
+  
+  
+  $("#first_aid_date").blur(function(){
+      setTimeout(function(){
+	      try {
+	      	validate_date($("#first_aid_date").val() , "firstaiddate" , true) ;
+	      	remove_error($("#first_aid_date"));
+	      } catch (error) {
+	          handle_error($("#first_aid_date") , error.message) ;
+	      }
+      },500);
+  });			  
+  
+  $("#first_submit").click(function(){
+	  if(!fields_validated.name){
+	      handle_error($("#candidate_name") , "Please enter a valid name") ;
+	  } else if(!fields_validated.dob){
+	      handle_error($("#date_of_birth") , "Please enter a valid date of birth") ;
+	  } else if(!fields_validated.gender){
+	      handle_error($("#gender") , "Please enter a valid gender") ;
+	  } else {
+	      $("#first_section").hide("slow" , "linear" , function(){
+	      	  $("#second_section").show("slow");
+	      });
+	  }
+  });
+  
+  $("#second_submit").click(function(){
+      if(!fields_validated.payroll){
+          handle_error($("#payroll") , "Please enter a valid payroll number") ;
+      } else if (!fields_validated.startdate){
+          handle_error($("#start_date") , "Please enter a valid start date") ;
+      }	else if ($("#first_aid").val() === "yes" && !fields_validated.firstaiddate){			      
+          handle_error($("#first_aid_date") , "Please enter a valid expiry date") ;
+      } else {
+      	  var first_aid = ($("#first_aid").val() === "yes") ? "Yes, expires on " + $("#first_aid_date").val() : "no" ;
+      	  var candidate_details = "<h2>Candidate details:</h2>" +
+              "Name: " + $("#candidate_name").val() + "<br>" +
+              "Date of birth: " + $("#date_of_birth").val()  + "<br>" +
+              "Gender: " + $("#gender").val() + "<br>" +
+              "Payroll number: " + $("#payroll").val() + "<br>" +
+              "Start date: " + $("#start_date").val() + "<br>" +
+              "Has first aid training: " + first_aid + "<br>" ;
+          $("#third_section").html(
+              candidate_details + 
+              "<div class='form-group' id='third_submit_wrapper'>" +
+			  "<button id='third_submit' class='btn btn-info form-control'" +
+			  "onclick='window.location.href=\"https://github.com/backenddeveloper\"'>Go to more code</button>"
+          );
+          $("#second_section").hide("slow" , "linear" , function(){
+	      	  $("#third_section").show("slow");
+	      	  console.log("Candidate details...");
+	      	  console.log("Name: " + $("#candidate_name").val()) ;
+	      	  console.log("Date of birth: " + $("#date_of_birth").val()) ;
+	      	  console.log("Gender: " + $("#gender").val()) ;
+	      	  console.log("Payroll number: " + $("#payroll").val()) ;
+	      	  console.log("Start date: " + $("#start_date").val()) ;
+	      	  console.log("Has first aid training: " + first_aid) ;
+	      });
+      }
+  });
+  
