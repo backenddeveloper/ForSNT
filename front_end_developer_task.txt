@@ -1,0 +1,12 @@
+Your task is to create a HTML wizard for a HR web application that allows a user to input staff member details.
+
+The wizard should consist of 2 steps with only one step being displayed at a time.
+
+At the first step the user will enter general staff information which is their name, date of birth and gender.
+The user cannot continue to the 2nd step until all fields from the 1st step have been entered and are valid.
+
+At the 2nd step the user will need to enter the staff members payroll number, start date and whether they have first aid training.
+Payroll number and start date are required fields. If the staff member has first aid training then an expiry date must also be given.
+
+Upon completing the 2nd step the wizard should simulate sending all staff data to a server by logging the it to the console.
+The wizard should not interact with a back end server.
